@@ -1,0 +1,240 @@
+/* ================================
+   CORPS DE PAGE
+   Mobile : fond gris, flex centré
+================================ */
+body {
+    background-color: var(--gris);
+    display: flex;
+    justify-content: center;    /* centrer horizontalement */
+    align-items: center;        /* centrer verticalement */
+    min-height: 100vh;          /* toute la hauteur écran */
+    padding: 16px;              /* espace sur les bords mobile */
+}
+
+/*
+   POURQUOI padding: 16px ?
+   Sur mobile le carré touche les bords → moche
+   padding donne un espace respirable autour
+*/
+
+/* ================================
+   CARRÉ CENTRAL
+   Mobile : pleine largeur
+================================ */
+.login-container {
+    background-color: var(--blanc);
+    width: 100%;                /* pleine largeur sur mobile */
+    padding: 24px;              /* moins de padding sur mobile */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/*
+   POURQUOI width: 100% ?
+   Sur mobile on veut que le carré
+   prenne toute la largeur disponible
+*/
+
+/* ================================
+   LOGO
+================================ */
+.login-logo {
+    text-align: center;
+    margin-bottom: 24px;        /* moins d'espace sur mobile */
+}
+
+.login-logo h1 {
+    font-size: 28px;            /* plus petit sur mobile */
+    font-weight: 800;
+    color: var(--noir);
+}
+
+.login-logo h1 span {
+    color: var(--or);
+}
+
+.login-logo p {
+    font-size: 11px;            /* plus petit sur mobile */
+    color: var(--gris);
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ================================
+   FORMULAIRE
+================================ */
+.form-group {
+    margin-bottom: 16px;        /* moins d'espace sur mobile */
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--noir);
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--noir);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--or);
+}
+
+.form-group input.input-error {
+    border-color: var(--rouge);
+}
+
+/* ================================
+   BOUTON
+================================ */
+button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--or);
+    color: var(--noir);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;            /* légèrement plus petit mobile */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 8px;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--or-fonce);
+}
+
+button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+button[type="submit"]:disabled {
+    background-color: var(--border);
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* ================================
+   SPINNER
+================================ */
+.spinner {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.spinner p {
+    font-size: 13px;
+    color: var(--gris);
+    margin-top: 8px;
+}
+
+.spinner-cercle {
+    width: 32px;                /* plus petit sur mobile */
+    height: 32px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--or);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: tourner 0.8s linear infinite;
+}
+
+@keyframes tourner {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ================================
+   MESSAGE ERREUR / SUCCÈS
+================================ */
+#message {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    display: none;
+}
+
+#message.error {
+    display: block;
+    background-color: #fde8e8;
+    color: var(--rouge);
+    border: 1px solid var(--rouge);
+}
+
+#message.success {
+    display: block;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+}
+
+/* ================================
+   TABLETTE — à partir de 600px
+================================ */
+@media (min-width: 600px) {
+
+    body {
+        padding: 0;             /* plus besoin de padding */
+    }
+
+    .login-container {
+        width: 440px;           /* largeur fixe sur tablette */
+        padding: 36px;
+    }
+
+    .login-logo h1 {
+        font-size: 32px;        /* plus grand sur tablette */
+    }
+
+    .login-logo p {
+        font-size: 12px;
+    }
+
+    .spinner-cercle {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* ================================
+   DESKTOP — à partir de 900px
+================================ */
+@media (min-width: 900px) {
+
+    .login-container {
+        width: 420px;           /* légèrement plus étroit */
+        padding: 40px;          /* plus d'espace */
+    }
+
+    .login-logo {
+        margin-bottom: 32px;
+    }
+
+    .login-logo h1 {
+        font-size: 34px;
+    }
+
+    .login-logo p {
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+
+    button[type="submit"] {
+        font-size: 16px;
+    }
+}
+

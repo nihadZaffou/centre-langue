@@ -1,67 +1,80 @@
 <?php
-// ============================================
-//  Utilisateur.php — Classe MÈRE abstraite
-//  Correspond à la table Utilisateur (SQL)
-//  Toutes les classes héritent de celle-ci
-//  OO : classe abstraite, héritage, encapsulation
-// ============================================
-
 require_once __DIR__ . '/../config/Database.php';
+class Utilisateur {
+    //la connex a la bd en memoire objet mysqli
+    private $conn;
+    public $idUser;
+    public $NomUser;
+    public $PrenomUser;
+    public $DateNaissanceUser;
+    public $EmailUser;
+    public $AdresseUser;
+    public $PhotoUser;
+    public $MotpassUser;
+    public $DateCreationUser;
+    public $RoleUser;
 
-abstract class Utilisateur {
-    // Attributs protégés → accessibles aux classes filles
-    protected ?int    $id        = null;
-    protected string  $nom;
-    protected string  $prenom;
-    protected ?string $cin       = null;
-    protected ?string $dateNaissance = null;
-    protected ?string $telephone = null;
-    protected string  $email;
-    protected ?string $adresse   = null;
-    protected ?string $photo     = null;
-    protected string  $motPasse;
+    //donne la conex bd a l'objet cree
+    public function __construct($db){
+        $this->conn = $db;
+    }
+public function create($data){
+    $password = bin2hex(random_bytes(4));
+    $MotpassUser = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $this->conn->prepare(
+        "INSERT INTO Utilisateur 
+        (NomUser, PrenomUser, EmailUser, DateNaissanceUser, AdresseUser, PhotoUser, MotPassUser, RoleUser, DateCreationUser) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())"
+    );
 
-    protected PDO $db;
+    $stmt->bind_param(
+        "ssssssss",
+        $data['NomUser'],
+        $data['PrenomUser'],
+        $data['EmailUser'],
+        $data['DateNaissanceUser'],
+        $data['AdresseUser'],
+        $data['PhotoUser'],
+        $MotpassUser,
+        $data['RoleUser']
+    );
 
-    public function __construct() {
-        $this->db = Database::getInstance()->getConnexion();
+    if($stmt->execute()){
+        $this->idUser = $this->conn->insert_id;
+        return [
+            "idUser" => $this->idUser,
+            "password" => $password
+        ];
     }
 
-    // ---- Getters ----
-    public function getId(): ?int       { return $this->id; }
-    public function getNom(): string    { return $this->nom; }
-    public function getPrenom(): string { return $this->prenom; }
-    public function getEmail(): string  { return $this->email; }
-
-    // ---- Setters ----
-    public function setNom(string $nom): void       { $this->nom = $nom; }
-    public function setPrenom(string $prenom): void { $this->prenom = $prenom; }
-    public function setEmail(string $email): void   { $this->email = $email; }
-    public function setMotPasse(string $mp): void   { $this->motPasse = password_hash($mp, PASSWORD_BCRYPT); }
-
-    // ---- Méthodes abstraites (chaque classe fille DOIT les implémenter) ----
-    abstract public function sauvegarder(): bool;
-    abstract public function trouverParId(int $id): ?array;
-
-    // ---- Méthode commune : insérer dans Utilisateur ----
-    protected function insererUtilisateur(): int {
-        $sql = "INSERT INTO Utilisateur 
-                (NomUser, PrenomUser, CinUser, DateNaissanceUser, TelephoneUser,
-                 EmailUser, AdresseUser, PhotoUser, MotPassUser)
-                VALUES (:nom, :prenom, :cin, :dateNaissance, :tel,
-                        :email, :adresse, :photo, :motPasse)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':nom'           => $this->nom,
-            ':prenom'        => $this->prenom,
-            ':cin'           => $this->cin,
-            ':dateNaissance' => $this->dateNaissance,
-            ':tel'           => $this->telephone,
-            ':email'         => $this->email,
-            ':adresse'       => $this->adresse,
-            ':photo'         => $this->photo,
-            ':motPasse'      => $this->motPasse,
-        ]);
-        return (int) $this->db->lastInsertId();
-    }
+    return false;
 }
+    public function getUserByEmail($email){
+        $sql="SELECT * FROM Utilisateur WHERE EmailUser=?";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->bind_param("s",$email);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        if($result->num_rows>0){
+            $row=$result->fetch_assoc();
+        // Remplir les attributs de l'objet pour utiliser apres
+        $this->idUser = $row['id_utilisateur'];
+        $this->NomUser = $row['NomUser'];
+        $this->PrenomUser = $row['PrenomUser'];
+        $this->DateNaissanceUser = $row['DateNaissanceUser'];
+        $this->EmailUser = $row['EmailUser'];
+        $this->AdresseUser = $row['AdresseUser'];
+        $this->PhotoUser = $row['PhotoUser'];
+        $this->MotpassUser = $row['MotPassUser'];
+        $this->DateCreationUser = $row['DateCreationUser'];
+        $this->RoleUser = $row['RoleUser'];
+            return $this;
+        }else{
+            return false;
+        }
+
+    }
+
+}
+
+?>

@@ -17,41 +17,50 @@ CREATE TABLE Utilisateur(
     AdresseUser VARCHAR(100),
     PhotoUser VARCHAR(50),
     MotPassUser VARCHAR(255) NOT NULL,
+    RoleUser VARCHAR(20) NOT NULL,
     DateCreationUser DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_utilisateur PRIMARY KEY (id_utilisateur)
 );
 
 CREATE TABLE Gerant(
-    idGerant INT AUTO_INCREMENT,
-    CONSTRAINT pk_gerant PRIMARY KEY (idGerant),
-    CONSTRAINT fk_gerant_utilisateur FOREIGN KEY (idGerant)
-        REFERENCES Utilisateur(id_utilisateur) ON UPDATE CASCADE ON DELETE CASCADE
+    idGerant INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT NOT NULL,
+    CONSTRAINT fk_gerant_utilisateur FOREIGN KEY (idUser)
+        REFERENCES Utilisateur(id_utilisateur)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
-
 CREATE TABLE Etudiant(
-    idEtudiant INT AUTO_INCREMENT,
+    idEtudiant INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT NOT NULL,
     ParentNom VARCHAR(50),
     ParentPrenom VARCHAR(50),
     ParentTel VARCHAR(15),
     Paye TINYINT(1) DEFAULT 0,
     Admis TINYINT(1) DEFAULT 0,
-    CONSTRAINT pk_etudiant PRIMARY KEY (idEtudiant),
-    CONSTRAINT fk_etudiant_utilisateur FOREIGN KEY (idEtudiant)
-        REFERENCES Utilisateur(id_utilisateur) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT fk_etudiant_utilisateur FOREIGN KEY (idUser)
+        REFERENCES Utilisateur(id_utilisateur)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Directeur(
-    idDirecteur INT AUTO_INCREMENT,
-    CONSTRAINT pk_directeur PRIMARY KEY (idDirecteur),
-    CONSTRAINT fk_directeur_utilisateur FOREIGN KEY (idDirecteur)
-        REFERENCES Utilisateur(id_utilisateur) ON UPDATE CASCADE ON DELETE CASCADE
+    idDirecteur INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT NOT NULL,
+    CONSTRAINT fk_directeur_utilisateur FOREIGN KEY (idUser)
+        REFERENCES Utilisateur(id_utilisateur)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Prof(
-    idProf INT AUTO_INCREMENT,
-    CONSTRAINT pk_prof PRIMARY KEY (idProf),
-    CONSTRAINT fk_prof_utilisateur FOREIGN KEY (idProf)
-        REFERENCES Utilisateur(id_utilisateur) ON UPDATE CASCADE ON DELETE CASCADE
+    idProf INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT NOT NULL,
+    Specialite VARCHAR(50),
+    CONSTRAINT fk_prof_utilisateur FOREIGN KEY (idUser)
+        REFERENCES Utilisateur(id_utilisateur)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Langue(

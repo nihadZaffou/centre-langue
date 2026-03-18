@@ -1,0 +1,22 @@
+/* ================================
+   VARIABLES SIRIUS CENTER
+================================ */
+:root {
+    --or: #F5C518;
+    --or-fonce: #e0b400;
+    --noir: #1a1a1a;
+    --gris: #4a6274;
+    --rouge: #cc0000;
+    --blanc: #ffffff;
+    --border: #e0e0e0;
+}
+
+/* ================================
+   RESET
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
