@@ -10,19 +10,31 @@ session_start();
 if(!isset($_SESSION['user_id'])){
     header("Location: ../login.php");
     exit();
-}?>
-/*
+}
+if($_SESSION['user_role'] !== "directeur"){
+    header("Location: ../login.php");
+    exit();
+}
+?>
+<!--
 `header()` c'est une fonction PHP qui envoie une **entête HTTP** au navigateur.
 `Location:` c'est une entête spéciale qui dit au navigateur **"va à cette URL"**.
----*/
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Directeur</title>
+  <link rel="stylesheet" href="/centre-langue/centre-langue/frontend/css/global.css"> 
 </head>
 <body>
-    <h1>Bienvenue Directeur</h1>
-    <a href="/centre-langue/centre-langue/backend/php/index.php?route=logout">Déconnexion</a>
+ <?php include('../components/navbar.php'); ?>
+    <div class="page-wrapper">
+        <?php include('sidebar_directeur.php'); ?>
+
+        <div class="main-content">
+            <h1>Bienvenue <?php echo $_SESSION['user_prenom']; ?></h1>
+        </div>
+    </div>
 </body>
 </html>

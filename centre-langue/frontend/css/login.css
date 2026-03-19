@@ -11,12 +11,6 @@ body {
     padding: 16px;              /* espace sur les bords mobile */
 }
 
-/*
-   POURQUOI padding: 16px ?
-   Sur mobile le carré touche les bords → moche
-   padding donne un espace respirable autour
-*/
-
 /* ================================
    CARRÉ CENTRAL
    Mobile : pleine largeur
@@ -28,13 +22,6 @@ body {
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
-
-/*
-   POURQUOI width: 100% ?
-   Sur mobile on veut que le carré
-   prenne toute la largeur disponible
-*/
-
 /* ================================
    LOGO
 ================================ */

@@ -11,17 +11,18 @@ if(isset($_SESSION['user_id'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIRIUS Center - Connexion</title>
+    <title>NIHAD Center - Connexion</title>
     <link rel="stylesheet" href="../css/global.css">
 <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     <div class="login-container">
 
-        <div class="login-logo">
-            <h1>SIRIUS <span>Center</span></h1>
-            <p>Centre de Langues et de Formation</p>
-        </div>
+<div class="navbar-logo">
+    <img src="/centre-langue/centre-langue/frontend/assets/images/logo.png" 
+         alt="NIHAD Center" 
+         class="logo-img">
+</div>
 
         <form id="loginForm">
             <div class="form-group">

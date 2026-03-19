@@ -30,6 +30,8 @@ public function login($email, $password){
     $_SESSION['user_id']    = $user->idUser;
     $_SESSION['user_email'] = $user->EmailUser;
     $_SESSION['user_role']  = $user->RoleUser;
+    $_SESSION['user_nom']    = $user->NomUser;
+    $_SESSION['user_prenom'] = $user->PrenomUser;
     return json_encode([
         "success" => true,
         "message" => "Connexion réussie",
