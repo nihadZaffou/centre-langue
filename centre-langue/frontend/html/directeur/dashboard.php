@@ -16,10 +16,6 @@ if($_SESSION['user_role'] !== "directeur"){
     exit();
 }
 ?>
-<!--
-`header()` c'est une fonction PHP qui envoie une **entête HTTP** au navigateur.
-`Location:` c'est une entête spéciale qui dit au navigateur **"va à cette URL"**.
--->
 <!DOCTYPE html>
 <html lang="fr">
 <head>

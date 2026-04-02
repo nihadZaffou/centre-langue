@@ -1,28 +1,28 @@
 <?php
+session_start();
+
+require_once __DIR__ . '/config/Database.php';   // chemin correct vers Database.php
+require_once __DIR__ . '/controllers/AuthController.php'; // chemin correct vers le controller
+$db = new Database();
+$conn = $db->getConnection();
+// Instancier le controller
+$authController = new AuthController($conn);
+// Lire les données JSON envoyées
+$rawData = file_get_contents("php://input");
+$data = json_decode($rawData, true);
+// Vérifier que les données existent
+if(!$data){
+    header('Content-Type: application/json');
+    echo json_encode([
+        "success" => false,
+        "message" => "Aucune donnée reçue"
+    ]);
+    exit;
+}
+
+// Appeler la méthode createUser
+$response = $authController->createUser($data);
+
+// Retour JSON
 header('Content-Type: application/json');
-require_once __DIR__ . '/config/Database.php';
-require_once __DIR__ . '/controllers/AuthController.php';
-
-// Lire JSON raw
-$input = json_decode(file_get_contents('php://input'), true);
-
-// Utiliser $input au lieu de $_POST
-$data = [
-    'NomUser'          => $input['NomUser'] ?? '',
-    'PrenomUser'       => $input['PrenomUser'] ?? '',
-    'EmailUser'        => $input['EmailUser'] ?? '',
-    'DateNaissanceUser'=> $input['DateNaissanceUser'] ?? '',
-    'AdresseUser'      => $input['AdresseUser'] ?? '',
-    'PhotoUser'        => $input['PhotoUser'] ?? '',
-    'RoleUser'         => $input['RoleUser'] ?? '',
-    'NomParent'        => $input['NomParent'] ?? '',
-    'PrenomParent'     => $input['PrenomParent'] ?? '',
-    'TelParent'        => $input['TelParent'] ?? '',
-    'Paye'             => $input['Paye'] ?? 0,
-    'Admis'            => $input['Admis'] ?? 0,
-    'Specialite'       => $input['Specialite'] ?? ''
-];
-
-$controller = new AuthController($conn);
-echo $controller->createUser($data);
-?>
+echo $response;

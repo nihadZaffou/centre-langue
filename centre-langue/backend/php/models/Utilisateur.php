@@ -19,6 +19,7 @@ class Utilisateur {
         $this->conn = $db;
     }
 public function create($data){
+    //mdp aleatoire 
     $password = bin2hex(random_bytes(4));
     $MotpassUser = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $this->conn->prepare(
@@ -56,7 +57,8 @@ public function create($data){
         $stmt->execute();
         $result=$stmt->get_result();
         if($result->num_rows>0){
-            $row=$result->fetch_assoc();
+        $row=$result->fetch_assoc();
+        //transforme en tableau
         // Remplir les attributs de l'objet pour utiliser apres
         $this->idUser = $row['id_utilisateur'];
         $this->NomUser = $row['NomUser'];
@@ -76,5 +78,9 @@ public function create($data){
     }
 
 }
-
+//SQL → récupérer ligne → transformer en objet → retourner objet
+/* Après la connexion réussie, on crée une session PHP.
+PHP stocke un identifiant unique (session id) côté serveur et envoie un cookie au navigateur.
+À chaque requête suivante, le navigateur renvoie ce cookie, et PHP peut retrouver la session 
+et savoir quel utilisateur est connecté.*/
 ?>

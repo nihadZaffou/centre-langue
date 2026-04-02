@@ -1,0 +1,137 @@
+/* ================================
+   GESTION UTILISATEURS
+================================ */
+
+/* Titre de la page */
+.main-content h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--noir);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--or);
+}
+
+/* ================================
+   FORMULAIRE
+================================ */
+.form-container {
+    background-color: var(--blanc);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 600px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--noir);
+    background-color: #fafafa;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--or);
+    background-color: var(--blanc);
+}
+
+/* ================================
+   BOUTON CRÉER
+================================ */
+#btnCreer {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--or);
+    color: var(--noir);
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 8px;
+}
+
+#btnCreer:hover {
+    background-color: var(--or-fonce);
+}
+
+/* ================================
+   MESSAGES
+================================ */
+#message {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+#message.success {
+    color: #1a6b2a;
+}
+
+#message.error {
+    color: var(--rouge);
+}
+
+/* ================================
+   MOT DE PASSE GÉNÉRÉ
+================================ */
+#resultatPassword {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background-color: #fff8e0;
+    border: 1px solid var(--or);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--noir);
+}
+
+#resultatPassword strong {
+    font-size: 18px;
+    color: var(--or-fonce);
+    letter-spacing: 2px;
+}
+
+/* ================================
+   TABLETTE
+================================ */
+@media (min-width: 600px) {
+    .main-content h1 {
+        font-size: 24px;
+    }
+
+    .form-container {
+        padding: 32px;
+    }
+}
+
+/* ================================
+   DESKTOP
+================================ */
+@media (min-width: 900px) {
+    .main-content h1 {
+        font-size: 26px;
+    }
+}

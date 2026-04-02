@@ -17,14 +17,7 @@ if(isset($_SESSION['user_id'])){
 </head>
 <body>
     <div class="login-container">
-
-<div class="navbar-logo">
-    <img src="/centre-langue/centre-langue/frontend/assets/images/logo.png" 
-         alt="NIHAD Center" 
-         class="logo-img">
-</div>
-
-        <form id="loginForm">
+<form id="loginForm">
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" id="email" placeholder="votre@email.com" required>

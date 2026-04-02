@@ -3,11 +3,9 @@ require_once __DIR__ . '/../models/Langue.php';
 
 class LangueController {
     private $conn;
-
     public function __construct($db) {
         $this->conn = $db;
     }
-
     public function create($data) {
         if(empty($data['NomLangue'])){
             return json_encode(["success" => false, "message" => "Nom de langue obligatoire"]);
@@ -15,7 +13,6 @@ class LangueController {
 
         $langue = new Langue($this->conn);
         $result = $langue->create($data['NomLangue']);
-
         if($result){
             return json_encode(["success" => true, "message" => "Langue créée avec succès"]);
         }
@@ -25,16 +22,15 @@ class LangueController {
     public function getAll() {
         $langue = new Langue($this->conn);
         $result = $langue->getAll();
-
         if(!$result){
             return json_encode(["success" => false, "message" => "Erreur récupération langues"]);
         }
-
         $langues = [];
+        //lit une ligne est renvoie cle valeu donc on boucle
         while($row = $result->fetch_assoc()){
             $langues[] = $row;
         }
-
+    //du tab php vers json
         return json_encode(["success" => true, "data" => $langues]);
     }
 
@@ -59,7 +55,6 @@ class LangueController {
 
         $langue = new Langue($this->conn);
         $result = $langue->delete($data['idLangue']);
-
         if($result){
             return json_encode(["success" => true, "message" => "Langue supprime avec succes"]);
         }

@@ -12,6 +12,7 @@ public function login($email, $password){
             "message" => "Email ou mot de passe manquant"
         ]);
     }
+    //Créer objet + lui donner accès à la base de données
     $user = new Utilisateur($this->conn);
     // Cas 1 — email introuvable
     if(!$user->getUserByEmail($email)){

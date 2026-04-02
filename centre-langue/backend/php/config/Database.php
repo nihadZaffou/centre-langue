@@ -1,14 +1,16 @@
 <?php
+class Database {
+    private $host = "localhost";
+    private $user = "root";
+    private $password = "";
+    private $dbName = "centrelangues";
+    public $conn;
 
-$host="localhost";
-$user="root";
-$password="";
-$database="centrelangues";
-
-$conn=new mysqli($host,$user,$password,$database);
-
-if($conn->connect_error){
-    die("Connexion echouée: ".$conn->connect_error);
+    public function getConnection(){
+        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->dbName);
+        if($this->conn->connect_error){
+            die("Connexion echouée: ".$this->conn->connect_error);
+        }
+        return $this->conn;
+    }
 }
-
-?>

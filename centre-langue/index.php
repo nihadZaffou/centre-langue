@@ -1,15 +1,17 @@
 <?php
 session_set_cookie_params([
-    'path' => '/',         
+    'path' => '/',   
+    //Le cookie est valide pour toutes les pages du site.      
     'domain' => 'localhost',
     'secure' => false,
     'httponly' => true
 ]);
 session_start();
-require_once __DIR__ . '/config/Database.php';
-require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/backend/php/config/Database.php';
+require_once __DIR__ . '/backend/php/controllers/AuthController.php';
+$db = new Database();
+$conn = $db->getConnection();
 $route = $_GET['route'] ?? '';
-
 switch($route){
     case 'login':
         $controller = new AuthController($conn);

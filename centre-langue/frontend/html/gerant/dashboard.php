@@ -6,10 +6,13 @@ session_set_cookie_params([
     'httponly' => true
 ]);
 session_start();
-
 if(!isset($_SESSION['user_id'])){
     header("Location: ../login.php");
     exit();
+if($_SESSION['user_role'] !== "gerant"){
+    header("Location: ../login.php");
+    exit();
+}
 }?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,6 +22,6 @@ if(!isset($_SESSION['user_id'])){
 </head>
 <body>
     <h1>Bienvenue gerant</h1>
-   <a href="/centre-langue/centre-langue/backend/php/index.php?route=logout">Déconnexion</a>
+   <a href="/centre-langue/centre-langue/index.php?route=logout">Déconnexion</a>
 </body>
 </html>
