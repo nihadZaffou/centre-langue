@@ -19,11 +19,20 @@ switch($route){
         break;
     case 'createUser':
         $controller = new AuthController($conn);
+        //echo envoie cette string dans la réponse HTTP vers le navigateur(tableau json converit paj json encode)
         echo $controller->createUser($_POST);
         break;
     case 'logout':
         $controller = new AuthController($conn);
         $controller->logout();
+        break;
+    case 'getProfil':
+        $controller = new AuthController($conn);
+        echo $controller->getProfil();
+        break;
+    case 'updatePassword':
+        $controller = new AuthController($conn);
+        echo $controller->updatePassword($_POST);
         break;
 //-----------------------------Langue-----------------------
 case 'createLangue':

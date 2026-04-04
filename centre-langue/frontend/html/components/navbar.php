@@ -19,7 +19,11 @@ if(!isset($_SESSION['user_id'])){
                 <?php echo ucfirst($_SESSION['user_role']); ?>
             </span>
         </div>
-        <a href="/centre-langue/centre-langue/backend/php/index.php?route=logout" class="btn-logout">
+        <a href="/centre-langue/centre-langue/frontend/html/profil.php" 
+        class="btn-profil">
+            Mon Profil
+        </a>
+        <a href="/centre-langue/centre-langue/index.php?route=logout" class="btn-logout">
             Déconnexion
         </a>
     </div>

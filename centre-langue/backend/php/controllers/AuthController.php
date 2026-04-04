@@ -51,10 +51,11 @@ public function logout(){
     exit();
 }
    
-   public function createUser($data){
+public function createUser($data){
     $userModel = new Utilisateur($this->conn);
     $result = $userModel->create($data);
     if(!$result){
+        //json_encode() convertit le tableau PHP en texte JSON
         return json_encode([
             "success" => false,
             "message" => "Erreur création utilisateur"
@@ -76,12 +77,12 @@ elseif($data['RoleUser'] === "gerant"){
 elseif($data['RoleUser'] === "directeur"){
     require_once __DIR__ . '/../models/Directeur.php';
     $directeur = new Directeur($this->conn);
-    $roleCreated = $directeur->create($idUser);  // ← juste idUser, pas $data
+    $roleCreated = $directeur->create($idUser);
 }
 elseif($data['RoleUser'] === "prof"){
     require_once __DIR__ . '/../models/Prof.php';
     $prof = new Prof($this->conn);
-    $roleCreated = $prof->create($idUser, $data);  // ← $data ajouté
+    $roleCreated = $prof->create($idUser, $data);
 }
     if(!$roleCreated){
         return json_encode([
@@ -92,11 +93,57 @@ elseif($data['RoleUser'] === "prof"){
             "sql_error" => $this->conn->error  // ← affiche dans Postman aussi
         ]);
     }
-
+    //json_encode() convertit le tableau PHP en texte JSON
     return json_encode([
         "success" => true,
         "message" => "Utilisateur et rôle créés avec succès",
         "password" => $password
     ]);
 }
+public function getProfil() {
+    // Vérifie que l'utilisateur est connecté
+    if(!isset($_SESSION['user_id'])) {
+        return json_encode(["success" => false, "message" => "Non connecté"]);
+    }
+//on passe la connexion deja cree avec new mysqli 
+//$userModel fait ref sur objet utilisateur qui contient attribut con pour parler mysql et appeler methodes
+    $userModel = new Utilisateur($this->conn);
+    $profil = $userModel->getProfil($_SESSION['user_id']);
+
+    if(!$profil) {
+        return json_encode(["success" => false, "message" => "Profil introuvable"]);
+    }
+
+    return json_encode(["success" => true, "data" => $profil]);
+}
+
+public function updatePassword($data) {
+    // Vérifie que l'utilisateur est connecté
+    if(!isset($_SESSION['user_id'])) {
+        return json_encode(["success" => false, "message" => "Non connecté"]);
+    }
+    // Vérifie que les champs sont remplis
+    if(empty($data['ancienPassword']) || empty($data['nouveauPassword']) || empty($data['confirmPassword'])) {
+        return json_encode(["success" => false, "message" => "Tous les champs sont obligatoires"]);
+    }
+
+    // Vérifie que nouveau = confirmation
+    if($data['nouveauPassword'] !== $data['confirmPassword']) {
+        return json_encode(["success" => false, "message" => "Les mots de passe ne correspondent pas"]);
+    }
+    // Récupère l'ancien hash depuis la BD
+    $userModel = new Utilisateur($this->conn);
+    $profil = $userModel->getProfil($_SESSION['user_id']);
+    // Vérifie l'ancien mot de passe
+    if(!password_verify($data['ancienPassword'], $profil['MotPassUser'])) {
+        return json_encode(["success" => false, "message" => "Ancien mot de passe incorrect"]);
+    }
+    // Met à jour
+    $result = $userModel->updatePassword($_SESSION['user_id'], $data['nouveauPassword']);
+    if($result['success']) {
+        return json_encode(["success" => true, "message" => "Mot de passe modifié avec succès"]);
+    }
+    return json_encode(["success" => false, "message" => "Erreur modification"]);
+}
+
 }

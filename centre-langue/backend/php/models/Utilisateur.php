@@ -19,15 +19,16 @@ class Utilisateur {
         $this->conn = $db;
     }
 public function create($data){
-    //mdp aleatoire 
+    //random_bytes(4)=32 bits de hasard non lisible
+    //bin2hex Convertit les bytes en texte lisible 
     $password = bin2hex(random_bytes(4));
+    //PASSWORD_DEFAULT=algo utilise pour hashe
     $MotpassUser = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $this->conn->prepare(
         "INSERT INTO Utilisateur 
         (NomUser, PrenomUser, EmailUser, DateNaissanceUser, AdresseUser, PhotoUser, MotPassUser, RoleUser, DateCreationUser) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())"
     );
-
     $stmt->bind_param(
         "ssssssss",
         $data['NomUser'],
@@ -39,7 +40,6 @@ public function create($data){
         $MotpassUser,
         $data['RoleUser']
     );
-
     if($stmt->execute()){
         $this->idUser = $this->conn->insert_id;
         return [
@@ -77,8 +77,37 @@ public function create($data){
 
     }
 
+
+// Récupérer le profil par id
+public function getProfil($idUser) {
+    $stmt = $this->conn->prepare(
+        "SELECT id_utilisateur, NomUser, PrenomUser, EmailUser, 
+         DateNaissanceUser, AdresseUser, PhotoUser, RoleUser, DateCreationUser
+         FROM Utilisateur WHERE id_utilisateur = ?"
+    );
+    $stmt->bind_param("i", $idUser);
+    $stmt->execute();
+    //Les données sont copiées du serveur MySQL → vers PHP (mémoire)
+    $result = $stmt->get_result();
+    //le résultat reste dans le serveur MySQL->donne moi Un objet résultat php (mysqli_result)
+    return $result->fetch_assoc();
+    //transforme la ligne SQL en tableau associatif
 }
-//SQL → récupérer ligne → transformer en objet → retourner objet
+
+// Changer le mot de passe
+public function updatePassword($idUser, $newPassword) {
+    //PASSWORD_DEFAULT=algo utilise pour hashe 
+    $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+    $stmt = $this->conn->prepare(
+        "UPDATE Utilisateur SET MotPassUser = ? WHERE id_utilisateur = ?"
+    );
+    $stmt->bind_param("si", $hash, $idUser);
+    if($stmt->execute()) {
+        return ["success" => true];
+    }
+    return ["success" => false, "error" => $this->conn->error];
+}
+}//SQL → récupérer ligne → transformer en objet → retourner objet
 /* Après la connexion réussie, on crée une session PHP.
 PHP stocke un identifiant unique (session id) côté serveur et envoie un cookie au navigateur.
 À chaque requête suivante, le navigateur renvoie ce cookie, et PHP peut retrouver la session 

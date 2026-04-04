@@ -19,7 +19,10 @@ document.getElementById('btnCreer').addEventListener('click', function() {
         message.innerHTML = 'Veuillez choisir un rôle';
         return;
     }
-    //envoie seulement champs utiles form simple envoie tous et recharge la page
+    /*envoie seulement champs utiles form simple envoie tous et recharge la page
+    contrôles exactement quels champs envoyer selon le rôle. Et c'est JS qui gère l'envoi sans rechargement — pas FormData lui-même
+    */
+   //FormData c'est un objet en mémoire dans le navigateur
     const data = new FormData();
     data.append('RoleUser',          role);
     data.append('NomUser',           document.getElementById('nom').value);
@@ -41,6 +44,7 @@ document.getElementById('btnCreer').addEventListener('click', function() {
         body: data
     })
     .then(res => res.json())
+    //txt-> objet JS en mémoire
     .then(data => {
         if(data.success) {
             message.className = 'success';
@@ -57,6 +61,7 @@ document.getElementById('btnCreer').addEventListener('click', function() {
 Le formulaire enverrait tous les champs
  — même ceux cachés. Si le directeur crée un gérant, Specialite et ParentNom 
  seraient quand même envoyés avec des valeurs vides. C'est inutile et pas propre.
-J’ai utilisé FormData avec fetch pour envoyer les données dynamiquement sans rechargement de page. Cela permet d’envoyer uniquement les champs nécessaires selon le rôle et de gérer facilement les fichiers si besoin.
+J’ai utilisé FormData avec fetch pour envoyer les données dynamiquement sans rechargement de page. Cela permet d’envoyer 
+uniquement les champs nécessaires selon le rôle et de gérer facilement les fichiers si besoin.
  C’est plus flexible qu’un formulaire classique
 */

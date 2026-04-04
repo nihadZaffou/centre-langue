@@ -1,0 +1,43 @@
+.profil-container {
+    background-color: var(--blanc);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 600px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 180px;
+    min-width: 180px;
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--noir);
+    font-weight: 500;
+}
+
+.form-container h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--noir);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--or);
+}
